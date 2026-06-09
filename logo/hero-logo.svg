@@ -1,0 +1,31 @@
+<svg class="hero-logo-svg" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g class="logo-roots svg-draw">
+        <path d="M120 230 Q120 250 105 270 Q95 285 80 295" stroke="#B8CFC9" stroke-width="2"/>
+        <path d="M120 230 Q120 255 130 275 Q138 290 155 298" stroke="#B8CFC9" stroke-width="2"/>
+        <path d="M120 230 Q115 260 100 280 Q90 290 75 305" stroke="#B8CFC9" stroke-width="1.5"/>
+        <path d="M120 230 Q125 260 140 278 Q150 288 165 300" stroke="#B8CFC9" stroke-width="1.5"/>
+        <path d="M120 230 Q120 265 115 285 Q112 298 108 310" stroke="#B8CFC9" stroke-width="1.2"/>
+        <path d="M120 230 Q120 265 125 288 Q128 300 132 312" stroke="#B8CFC9" stroke-width="1.2"/>
+      </g>
+      <g class="logo-core svg-draw">
+        <line x1="120" y1="130" x2="160" y2="175" stroke="#B8CFC9" stroke-width="1.8"/>
+        <line x1="160" y1="175" x2="120" y2="220" stroke="#B8CFC9" stroke-width="1.8"/>
+        <line x1="120" y1="220" x2="80" y2="175" stroke="#B8CFC9" stroke-width="1.8"/>
+        <line x1="80" y1="175" x2="120" y2="130" stroke="#B8CFC9" stroke-width="1.8"/>
+        <line x1="120" y1="130" x2="120" y2="220" stroke="#B8CFC9" stroke-width="1.5"/>
+        <line x1="80" y1="175" x2="160" y2="175" stroke="#B8CFC9" stroke-width="1.5"/>
+      </g>
+      <g class="logo-core svg-fill">
+        <circle cx="120" cy="130" r="7" fill="#B8CFC9"/>
+        <circle cx="160" cy="175" r="7" fill="#B8CFC9"/>
+        <circle cx="120" cy="220" r="7" fill="#B8CFC9"/>
+        <circle cx="80" cy="175" r="7" fill="#B8CFC9"/>
+        <circle cx="120" cy="175" r="5" fill="#B8CFC9"/>
+      </g>
+      <path class="logo-halo svg-draw" d="M65 230 Q40 180 55 130 Q70 80 120 60 Q170 80 185 130 Q200 180 175 230" stroke="#3D6B5E" stroke-width="2.5" fill="none"/>
+      <g class="logo-sprout svg-fill">
+        <path d="M120 130 Q110 108 100 95 Q110 100 120 115" fill="#6FBF4A"/>
+        <path d="M120 130 Q130 108 140 95 Q130 100 120 115" fill="#6FBF4A"/>
+        <line x1="120" y1="130" x2="120" y2="110" stroke="#6FBF4A" stroke-width="1.5"/>
+      </g>
+    </svg>

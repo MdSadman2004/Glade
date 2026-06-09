@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glade — How It Works</title>
+  <meta name="description" content="A clear, structured path to integrating RAG, LangGraph, and GenAI agents into your business.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/elevated.css">
+  <link rel="stylesheet" href="css/narrative.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <style>
+    .hiw-header {
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 12vh var(--space-md) 4vh;
+    }
+    .hiw-content {
+      padding: 4vh var(--space-md) 16vh;
+    }
+    .timeline-container {
+      max-width: 800px;
+      margin: 6vh auto 0;
+      position: relative;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 28px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(var(--life-spring-rgb), 0.2), rgba(var(--life-spring-rgb), 0.2), transparent);
+    }
+    .timeline-step {
+      display: flex;
+      gap: var(--space-lg);
+      align-items: flex-start;
+      margin-bottom: 10vh;
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .timeline-step.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .step-badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(var(--life-spring-rgb), 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: var(--life-spring);
+      flex-shrink: 0;
+      background: var(--canvas);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 24px rgba(var(--life-spring-rgb), 0.08);
+      transition: all 0.6s ease;
+    }
+    .timeline-step:hover .step-badge {
+      box-shadow: 0 0 40px rgba(var(--life-spring-rgb), 0.2);
+      border-color: rgba(var(--life-spring-rgb), 0.4);
+    }
+    .step-details h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--deep-earth-dark);
+      letter-spacing: 0.03em;
+    }
+    .step-details p {
+      font-size: 1rem;
+      line-height: 1.85;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition-overlay"></div>
+
+  <canvas id="atmosCanvas"></canvas>
+  <div id="scrollProgress"></div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay">
+    <a href='/'>Home</a>
+    <a href='/approach'>Approach</a>
+    <a class='active' href='/how-it-works'>How It Works</a>
+    <a href='/ecosystem'>Ecosystems</a>
+    <a href='/projects'>Projects</a>
+    <a href='/connect'>Connect</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href='/' style='color: inherit;'>glade.</a></div>
+      <button class="menu-toggle" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href='/approach'>Approach</a>
+        <a class='active' href='/how-it-works'>How It Works</a>
+        <a href='/ecosystem'>Ecosystems</a>
+        <a href='/projects'>Projects</a>
+        <a href='/connect'>Connect</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <section class="hiw-header">
+    <h1 id="page-title" class="hero-headline split-text">Loading Steps...</h1>
+    <p id="page-subtitle" class="hero-subheadline reveal-up" style="max-width: 800px; margin-top: 4vh; font-size: 1.2rem;"></p>
+  </section>
+
+  <section class="hiw-content painting-step-section particle-target-section" data-shape="river">
+    <div class="section-divider"></div>
+    
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      <div id="steps-container">
+        <!-- Dynamically Injected Steps -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand"><a href='/' style='color: inherit;'>glade.</a></div>
+    <div class="footer-links">
+      <a href='/approach'>Approach</a>
+      <a href='/projects'>Projects</a>
+      <a href='/connect'>Contact</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Glade. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/canvas-engine.js"></script>
+
+  <script>
+    // Fetch page data from REST API
+    async function loadContent() {
+      try {
+        const response = await fetch('/api/pages/how-it-works');
+        const data = await response.json();
+
+        // Inject content
+        document.title = `Glade — ${data.title}`;
+        document.getElementById('page-title').innerText = data.title;
+        document.getElementById('page-subtitle').innerText = data.subtitle;
+
+        // Render steps
+        const container = document.getElementById('steps-container');
+        container.innerHTML = '';
+        data.steps.forEach((step, index) => {
+          const stepDiv = document.createElement('div');
+          stepDiv.className = 'timeline-step';
+          stepDiv.style.transitionDelay = `${index * 0.15}s`;
+          stepDiv.innerHTML = `
+            <div class="step-badge">${step.num}</div>
+            <div class="step-details">
+              <h3>${step.title}</h3>
+              <p>${step.desc}</p>
+            </div>
+          `;
+          container.appendChild(stepDiv);
+        });
+
+        // Trigger reveal animations
+        setTimeout(() => {
+          document.querySelectorAll('.timeline-step').forEach(el => el.classList.add('visible'));
+          // Trigger split text for title
+          const titleEl = document.getElementById('page-title');
+          const text = titleEl.innerText;
+          titleEl.innerHTML = '';
+          text.split(' ').forEach((word, i) => {
+            const span = document.createElement('span');
+            span.classList.add('split-word');
+            span.innerText = word;
+            span.style.transitionDelay = `${i * 0.045}s`;
+            titleEl.appendChild(span);
+            if (i < text.split(' ').length - 1) titleEl.appendChild(document.createTextNode(' '));
+          });
+          titleEl.classList.add('visible');
+        }, 100);
+
+      } catch (err) {
+        console.error('Failed to load page content from API', err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadContent);
+  </script>
+</body>
+</html>

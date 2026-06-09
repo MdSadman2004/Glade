@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glade — Our Approach</title>
+  <meta name="description" content="Glade integrates advanced AI (RAG, LangGraph) into traditional B2B workflows. Learn more about our philosophy.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/elevated.css">
+  <link rel="stylesheet" href="css/narrative.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <style>
+    .approach-header {
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 12vh var(--space-md) 4vh;
+    }
+    .approach-content {
+      padding: 4vh var(--space-md) 16vh;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+      max-width: 1200px;
+      margin: 8vh auto 0;
+    }
+    .pillar-card {
+      background: rgba(var(--surface-rgb), 0.25);
+      border: 1px solid rgba(var(--mint-mist-rgb), 0.06);
+      border-radius: 24px;
+      padding: var(--space-lg) var(--space-md);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .pillar-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pillar-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(var(--life-spring-rgb), 0.12);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3), 0 0 40px rgba(var(--life-spring-rgb), 0.06);
+    }
+    .pillar-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 2vh;
+      color: var(--deep-earth-dark);
+    }
+    .pillar-card p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition-overlay"></div>
+
+  <canvas id="atmosCanvas"></canvas>
+  <div id="scrollProgress"></div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay">
+    <a href='/'>Home</a>
+    <a class='active' href='/approach'>Approach</a>
+    <a href='/how-it-works'>How It Works</a>
+    <a href='/ecosystem'>Ecosystems</a>
+    <a href='/projects'>Projects</a>
+    <a href='/connect'>Connect</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href='/' style='color: inherit;'>glade.</a></div>
+      <button class="menu-toggle" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a class='active' href='/approach'>Approach</a>
+        <a href='/how-it-works'>How It Works</a>
+        <a href='/ecosystem'>Ecosystems</a>
+        <a href='/projects'>Projects</a>
+        <a href='/connect'>Connect</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <section class="approach-header">
+    <h1 id="page-title" class="hero-headline split-text">Loading Approach...</h1>
+    <p id="page-subtitle" class="hero-subheadline reveal-up" style="max-width: 800px; margin-top: 4vh; font-size: 1.2rem;"></p>
+  </section>
+
+  <section class="approach-content particle-target-section" data-shape="diamond">
+    <div class="section-divider"></div>
+    <p id="page-description" class="reveal-up" style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.15rem; line-height: 1.9;"></p>
+    
+    <div class="pillars-grid" id="pillars-container">
+      <!-- Dynamically Injected Pillars -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand"><a href='/' style='color: inherit;'>glade.</a></div>
+    <div class="footer-links">
+      <a href='/how-it-works'>How It Works</a>
+      <a href='/projects'>Projects</a>
+      <a href='/connect'>Contact</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Glade. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/canvas-engine.js"></script>
+
+  <script>
+    // Fetch page data from REST API
+    async function loadContent() {
+      try {
+        const response = await fetch('/api/pages/approach');
+        const data = await response.json();
+
+        // Inject content
+        document.title = `Glade — ${data.title}`;
+        document.getElementById('page-title').innerText = data.title;
+        document.getElementById('page-subtitle').innerText = data.subtitle;
+        document.getElementById('page-description').innerText = data.description;
+
+        // Render pillars
+        const container = document.getElementById('pillars-container');
+        container.innerHTML = '';
+        data.pillars.forEach((p, index) => {
+          const card = document.createElement('div');
+          card.className = 'pillar-card';
+          card.style.transitionDelay = `${index * 0.15}s`;
+          card.innerHTML = `
+            <h3>${p.title}</h3>
+            <p>${p.desc}</p>
+          `;
+          container.appendChild(card);
+        });
+
+        // Trigger reveal animations
+        setTimeout(() => {
+          document.querySelectorAll('.pillar-card').forEach(el => el.classList.add('visible'));
+          // Trigger split text for title
+          const titleEl = document.getElementById('page-title');
+          const text = titleEl.innerText;
+          titleEl.innerHTML = '';
+          text.split(' ').forEach((word, i) => {
+            const span = document.createElement('span');
+            span.classList.add('split-word');
+            span.innerText = word;
+            span.style.transitionDelay = `${i * 0.045}s`;
+            titleEl.appendChild(span);
+            if (i < text.split(' ').length - 1) titleEl.appendChild(document.createTextNode(' '));
+          });
+          titleEl.classList.add('visible');
+        }, 100);
+
+      } catch (err) {
+        console.error('Failed to load page content from API', err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadContent);
+  </script>
+</body>
+</html>

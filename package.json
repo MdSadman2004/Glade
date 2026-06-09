@@ -1,0 +1,13 @@
+{
+  "name": "glade-website",
+  "version": "1.0.0",
+  "description": "Replicated Glade startup website with clean local routing and REST mock API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "playwright": "^1.60.0"
+  }
+}

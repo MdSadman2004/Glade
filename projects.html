@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glade — Our Projects</title>
+  <meta name="description" content="Explore our production-ready AI templates, multi-agent frameworks, and deep integration models.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/elevated.css">
+  <link rel="stylesheet" href="css/narrative.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <style>
+    .projects-header {
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 12vh var(--space-md) 4vh;
+    }
+    .projects-content {
+      padding: 4vh var(--space-md) 16vh;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-lg);
+      max-width: 1200px;
+      margin: 8vh auto 0;
+    }
+    .project-detail-card {
+      background: rgba(var(--surface-rgb), 0.2);
+      border: 1px solid rgba(var(--mint-mist-rgb), 0.08);
+      border-radius: 28px;
+      padding: var(--space-lg) var(--space-md);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .project-detail-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .project-detail-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 29px;
+      background: linear-gradient(165deg, rgba(111,191,74,0.1), transparent 40%, transparent 60%, rgba(111,191,74,0.05));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .project-detail-card:hover::before {
+      opacity: 1;
+    }
+    .project-detail-card:hover {
+      border-color: rgba(var(--life-spring-rgb), 0.18);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 50px rgba(var(--life-spring-rgb), 0.08);
+      transform: translateY(-8px);
+    }
+    .project-detail-card-top h4 {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--life-spring);
+      text-transform: uppercase;
+      margin-bottom: 2vh;
+    }
+    .project-detail-card-top h3 {
+      font-size: 1.6rem;
+      color: var(--deep-earth-dark);
+      margin-bottom: 2vh;
+    }
+    .project-detail-card-top p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.8;
+      margin-bottom: 4vh;
+    }
+    .project-action {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .btn-github {
+      background: rgba(var(--life-spring-rgb), 0.05);
+      border: 1px solid rgba(var(--life-spring-rgb), 0.25);
+      color: var(--life-spring-glow);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .btn-github:hover {
+      background: var(--life-spring);
+      color: var(--canvas);
+      border-color: var(--life-spring);
+      box-shadow: 0 0 20px rgba(var(--life-spring-rgb), 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition-overlay"></div>
+
+  <canvas id="atmosCanvas"></canvas>
+  <div id="scrollProgress"></div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay">
+    <a href='/'>Home</a>
+    <a href='/approach'>Approach</a>
+    <a href='/how-it-works'>How It Works</a>
+    <a href='/ecosystem'>Ecosystems</a>
+    <a class='active' href='/projects'>Projects</a>
+    <a href='/connect'>Connect</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href='/' style='color: inherit;'>glade.</a></div>
+      <button class="menu-toggle" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href='/approach'>Approach</a>
+        <a href='/how-it-works'>How It Works</a>
+        <a href='/ecosystem'>Ecosystems</a>
+        <a class='active' href='/projects'>Projects</a>
+        <a href='/connect'>Connect</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <section class="projects-header">
+    <h1 id="page-title" class="hero-headline split-text">Loading Projects...</h1>
+    <p id="page-subtitle" class="hero-subheadline reveal-up" style="max-width: 800px; margin-top: 4vh; font-size: 1.2rem;"></p>
+  </section>
+
+  <section class="projects-content particle-target-section" data-shape="anatomy">
+    <div class="section-divider"></div>
+    <p id="page-description" class="reveal-up" style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.15rem; line-height: 1.9;"></p>
+    
+    <div class="projects-grid" id="projects-container">
+      <!-- Dynamically Injected Projects -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand"><a href='/' style='color: inherit;'>glade.</a></div>
+    <div class="footer-links">
+      <a href='/how-it-works'>How It Works</a>
+      <a href='/projects'>Projects</a>
+      <a href='/connect'>Contact</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Glade. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/canvas-engine.js"></script>
+
+  <script>
+    // Fetch page data from REST API
+    async function loadContent() {
+      try {
+        const response = await fetch('/api/pages/projects');
+        const data = await response.json();
+
+        // Inject content
+        document.title = `Glade — ${data.title}`;
+        document.getElementById('page-title').innerText = data.title;
+        document.getElementById('page-subtitle').innerText = data.subtitle;
+        document.getElementById('page-description').innerText = data.description;
+
+        // Render projects
+        const container = document.getElementById('projects-container');
+        container.innerHTML = '';
+        data.projects.forEach((item, index) => {
+          const card = document.createElement('div');
+          card.className = 'project-detail-card';
+          card.style.transitionDelay = `${index * 0.15}s`;
+          card.innerHTML = `
+            <div class="project-detail-card-top">
+              <h4>${item.tag}</h4>
+              <h3>${item.title}</h3>
+              <p>${item.desc}</p>
+            </div>
+            <div class="project-action">
+              <a href="${item.githubUrl}" class="btn-github magnetic">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
+                </svg>
+                <span>Source Code</span>
+              </a>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        // Trigger reveal animations
+        setTimeout(() => {
+          document.querySelectorAll('.project-detail-card').forEach(el => el.classList.add('visible'));
+
+          // Trigger split text for title
+          const titleEl = document.getElementById('page-title');
+          const text = titleEl.innerText;
+          titleEl.innerHTML = '';
+          text.split(' ').forEach((word, i) => {
+            const span = document.createElement('span');
+            span.classList.add('split-word');
+            span.innerText = word;
+            span.style.transitionDelay = `${i * 0.045}s`;
+            titleEl.appendChild(span);
+            if (i < text.split(' ').length - 1) titleEl.appendChild(document.createTextNode(' '));
+          });
+          titleEl.classList.add('visible');
+        }, 100);
+
+      } catch (err) {
+        console.error('Failed to load page content from API', err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadContent);
+  </script>
+</body>
+</html>

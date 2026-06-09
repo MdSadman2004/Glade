@@ -1,0 +1,823 @@
+/* ============================================
+   GLADE — Elevated Design Layer v2
+   Cinematic spacing, color choreography, 
+   and meaningful motion graphics
+   ============================================ */
+
+/* --- Film Grain --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px;
+}
+
+/* ============================================
+   NEGATIVE SPACE — Let the page breathe
+   ============================================ */
+#hero {
+  min-height: 110vh !important;
+  padding-bottom: 15vh !important;
+}
+
+#tangled {
+  padding: 18vh var(--space-md) 18vh !important;
+}
+
+#clarity {
+  padding: 20vh var(--space-md) 18vh !important;
+  min-height: 90vh !important;
+}
+
+#anatomy {
+  padding: 16vh var(--space-md) 18vh !important;
+}
+
+#ecosystems {
+  padding: 16vh 0 18vh !important;
+}
+
+#harvest {
+  padding: 18vh var(--space-md) !important;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#contact {
+  padding: 16vh var(--space-md) 18vh !important;
+}
+
+.process-section {
+  padding: 16vh var(--space-md) 18vh !important;
+}
+
+.quote-section {
+  padding: 14vh var(--space-md) !important;
+}
+
+.stats-bar {
+  padding: 10vh var(--space-md) !important;
+}
+
+.cta-banner {
+  padding: 14vh var(--space-md) !important;
+}
+
+/* ============================================
+   COLOR CHOREOGRAPHY — Sections shift tone
+   ============================================ */
+
+/* Hero: deepest dark with emerald undertone */
+#hero {
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(14, 40, 32, 1), var(--canvas) 70%) !important;
+}
+
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30vh;
+  background: linear-gradient(to top, var(--canvas-dark), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Tangled: slightly warmer dark */
+#tangled {
+  background: linear-gradient(180deg, var(--canvas-dark) 0%, #0B1714 50%, var(--canvas) 100%) !important;
+}
+
+/* Clarity: center glow */
+#clarity {
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(111, 191, 74, 0.03), transparent) !important;
+}
+
+/* Stats: deep band */
+.stats-bar {
+  background: var(--canvas-dark) !important;
+  border-top: 1px solid rgba(var(--life-spring-rgb), 0.06) !important;
+  border-bottom: 1px solid rgba(var(--life-spring-rgb), 0.06) !important;
+}
+
+/* Anatomy: subtle elevation */
+#anatomy {
+  background: linear-gradient(180deg, var(--canvas) 0%, rgba(14, 27, 24, 1) 50%, var(--canvas) 100%);
+}
+
+/* Process: deep with left glow */
+.process-section {
+  background: radial-gradient(ellipse 30% 50% at 10% 50%, rgba(111, 191, 74, 0.02), transparent);
+}
+
+/* Quote: atmospheric */
+.quote-section {
+  background: var(--canvas-dark);
+  border-top: 1px solid rgba(var(--mint-mist-rgb), 0.05);
+  border-bottom: 1px solid rgba(var(--mint-mist-rgb), 0.05);
+}
+
+/* Ecosystems: deep */
+#ecosystems {
+  background: linear-gradient(180deg, var(--canvas) 0%, var(--canvas-dark) 40%, var(--canvas-dark) 60%, var(--canvas) 100%);
+}
+
+/* CTA: warm glow */
+.cta-banner {
+  background: linear-gradient(135deg, rgba(var(--mint-mist-rgb), 0.06), rgba(var(--life-spring-rgb), 0.04)) !important;
+  border-top: 1px solid rgba(var(--life-spring-rgb), 0.08) !important;
+  border-bottom: 1px solid rgba(var(--life-spring-rgb), 0.08) !important;
+}
+
+/* Harvest: elevated surface */
+#harvest {
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(var(--mint-mist-rgb), 0.04), var(--canvas-elevated)) !important;
+}
+
+/* Contact: return to deep */
+#contact {
+  background: var(--canvas) !important;
+}
+
+/* Footer: darkest */
+footer {
+  background: var(--canvas-dark) !important;
+  border-top: 1px solid rgba(var(--mint-mist-rgb), 0.06) !important;
+}
+
+/* ============================================
+   GRADIENT TEXT — Hero headline
+   ============================================ */
+.hero-headline {
+  background: linear-gradient(135deg, var(--deep-earth-dark) 0%, var(--life-spring-glow) 40%, var(--deep-earth-dark) 80%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   SECTION DIVIDERS — Glowing lines
+   ============================================ */
+.section-divider {
+  width: 100px;
+  height: 1px;
+  margin: 0 auto 8vh;
+  background: linear-gradient(90deg, transparent, var(--life-spring), transparent);
+  opacity: 0.35;
+  position: relative;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--life-spring);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--life-spring), 0 0 24px rgba(var(--life-spring-rgb), 0.3);
+}
+
+/* ============================================
+   SCROLL PROGRESS — Elevated
+   ============================================ */
+#scrollProgress {
+  height: 2px !important;
+  background: linear-gradient(90deg, var(--life-spring), var(--life-spring-glow)) !important;
+  box-shadow: 0 0 10px rgba(var(--life-spring-rgb), 0.5), 0 0 30px rgba(var(--life-spring-rgb), 0.2) !important;
+}
+
+/* ============================================
+   REVEAL ANIMATIONS — Meaningful motion
+   ============================================ */
+
+/* Standard upward reveal */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scale-in reveal */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Slide from left */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   SPLIT TEXT — Refined word reveals
+   ============================================ */
+.split-text {
+  overflow: visible !important;
+  display: block !important;
+}
+
+.split-word {
+  display: inline-block;
+  transform: translateY(110%) rotate(3deg);
+  opacity: 0;
+  filter: blur(4px);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.split-text.visible .split-word {
+  transform: translateY(0) rotate(0);
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ============================================
+   ANATOMY COLUMNS — Glassmorphism
+   ============================================ */
+.anatomy-col {
+  background: rgba(var(--surface-rgb), 0.25) !important;
+  border: 1px solid rgba(var(--mint-mist-rgb), 0.06) !important;
+  border-radius: 24px !important;
+  padding: 6vh var(--space-lg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.anatomy-col::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--life-spring-rgb), 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.anatomy-col:hover {
+  transform: translateY(-8px) !important;
+  border-color: rgba(var(--life-spring-rgb), 0.12) !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3), 0 0 40px rgba(var(--life-spring-rgb), 0.06) !important;
+}
+
+.anatomy-col:hover::before {
+  opacity: 1;
+}
+
+#col-rag .anatomy-icon, #col-langgraph .anatomy-icon, #col-genai .anatomy-icon {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 5vh !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   ECO CARDS — Premium glass
+   ============================================ */
+.eco-card {
+  background: rgba(var(--surface-rgb), 0.3) !important;
+  border: 1px solid rgba(var(--mint-mist-rgb), 0.06) !important;
+  border-radius: 28px !important;
+  padding: 8vh var(--space-lg) !important;
+  min-width: min(500px, 82vw) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.eco-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(var(--life-spring-rgb), 0.03), transparent);
+  pointer-events: none;
+}
+
+.eco-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 29px;
+  background: linear-gradient(160deg, rgba(111,191,74,0.12), transparent 35%, transparent 65%, rgba(61,107,94,0.1));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.eco-card:hover::before {
+  opacity: 1;
+}
+
+.eco-card:hover {
+  border-color: rgba(var(--life-spring-rgb), 0.1) !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 50px rgba(var(--life-spring-rgb), 0.05) !important;
+}
+
+/* ============================================
+   STATS BAR — Refinements
+   ============================================ */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: clamp(40px, 10vw, 140px);
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 400;
+  color: var(--life-spring);
+  line-height: 1;
+  margin-bottom: 12px;
+  display: block;
+  text-shadow: 0 0 30px rgba(var(--life-spring-rgb), 0.2);
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--deep-earth);
+  opacity: 0.45;
+}
+
+/* ============================================
+   PROCESS STEPS — Elevated timeline
+   ============================================ */
+.process-header {
+  text-align: center;
+  margin-bottom: 10vh;
+}
+
+.process-steps {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8vh;
+  position: relative;
+}
+
+.process-steps::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(var(--life-spring-rgb), 0.2), rgba(var(--life-spring-rgb), 0.2), transparent);
+}
+
+.process-step {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--life-spring-rgb), 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--life-spring);
+  flex-shrink: 0;
+  background: var(--canvas);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 24px rgba(var(--life-spring-rgb), 0.08);
+  transition: box-shadow 0.6s ease, border-color 0.6s ease;
+}
+
+.process-step:hover .step-num {
+  box-shadow: 0 0 40px rgba(var(--life-spring-rgb), 0.2);
+  border-color: rgba(var(--life-spring-rgb), 0.4);
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--deep-earth-dark);
+}
+
+.step-content p {
+  font-size: 0.95rem;
+  opacity: 0.6;
+  line-height: 1.8;
+}
+
+/* ============================================
+   QUOTE — Premium editorial
+   ============================================ */
+.quote-mark {
+  font-family: var(--font-heading);
+  font-size: 8rem;
+  color: var(--life-spring);
+  opacity: 0.08;
+  line-height: 0.4;
+  display: block;
+  margin-bottom: 4vh;
+}
+
+.quote-text {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  color: var(--deep-earth-dark);
+  max-width: 680px;
+  margin: 0 auto 3vh;
+  line-height: 1.8;
+}
+
+.quote-author {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--deep-earth);
+  opacity: 0.35;
+}
+
+/* ============================================
+   TRUST BADGES
+   ============================================ */
+.trust-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: 6vh var(--space-md);
+  flex-wrap: wrap;
+}
+
+.trust-badge {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--deep-earth);
+  opacity: 0.3;
+  padding: 10px 22px;
+  border: 1px solid rgba(var(--deep-earth-rgb), 0.08);
+  border-radius: 100px;
+  transition: opacity 0.5s ease, border-color 0.5s ease;
+}
+
+.trust-badge:hover {
+  opacity: 0.6;
+  border-color: rgba(var(--life-spring-rgb), 0.15);
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+.cta-banner {
+  text-align: center;
+}
+
+.cta-banner h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  margin-bottom: var(--space-md);
+}
+
+/* ============================================
+   MAGNETIC & TILT
+   ============================================ */
+.magnetic {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.tilt-card {
+  transition: transform 0.15s ease-out, box-shadow 0.5s ease, border-color 0.5s ease;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* ============================================
+   HORIZONTAL SCROLL INDICATORS on eco track
+   ============================================ */
+.ecosystems-track {
+  position: relative;
+  padding: var(--space-lg) 6vw !important;
+  gap: 40px !important;
+}
+
+.ecosystems-track::after {
+  content: '→ scroll';
+  position: sticky;
+  right: 0;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--deep-earth);
+  opacity: 0.2;
+  align-self: center;
+  padding-left: 20px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  #hero { min-height: 100vh !important; padding-bottom: 10vh !important; }
+  #tangled, #clarity, #anatomy, #ecosystems, #contact, .process-section, .quote-section {
+    padding: 12vh var(--space-sm) !important;
+  }
+  .stats-bar { flex-direction: column; gap: 5vh; align-items: center; }
+  .process-steps::before { left: 18px; }
+  .step-num { width: 40px; height: 40px; font-size: 0.9rem; }
+  .trust-row { gap: var(--space-xs); }
+  .trust-badge { font-size: 0.6rem; padding: 6px 14px; }
+  .anatomy-col { padding: 4vh var(--space-md) !important; }
+  .eco-card { padding: 5vh var(--space-md) !important; }
+  .ecosystems-track::after { display: none; }
+}
+
+/* ============================================
+   PREMIUM TYPOGRAPHY ENHANCEMENTS
+   ============================================ */
+
+/* Headings: Elegant, open, breathable look (fixed squeezed styling) */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: 0.03em;    /* Relaxed, open letter spacing */
+  line-height: 1.25;         /* Spacious line height */
+  color: var(--deep-earth-dark);
+}
+
+/* Base Body: clean, spacious, legible, warm geometric */
+body, p, input, textarea, button {
+  font-family: var(--font-body);
+  letter-spacing: 0.04em;    /* Relaxed body tracking */
+  font-weight: 300;
+}
+
+p {
+  line-height: 1.85;         /* Generous line height */
+  color: var(--deep-earth);
+  opacity: 0.85;
+}
+
+strong {
+  font-weight: 500;
+  color: var(--deep-earth-dark);
+}
+
+/* Navigation Links */
+.nav-links a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.16em;    /* Open, high-end tracking */
+  font-size: 0.75rem;
+}
+
+.nav-logo {
+  font-family: var(--font-accent);
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* Hero Content */
+.hero-headline {
+  font-size: clamp(3.5rem, 8vw, 6rem) !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.02em !important; /* Fixed squeezed header */
+  font-weight: 400;
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.95;
+  opacity: 0.8;
+}
+
+/* Sub-headings */
+h2.split-text, .clarity-headline {
+  font-size: clamp(2.2rem, 5vw, 3.8rem) !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* Section specific typography tweaks */
+.tangled-text p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.anatomy-col h3 {
+  font-size: 1.8rem;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+  margin-top: 15px;
+}
+
+.anatomy-col p {
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.eco-card h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+.eco-card p {
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+/* Timeline steps */
+.step-content h3 {
+  font-size: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+.step-num {
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* Testimonials / Quotes */
+.quote-text {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem) !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+.quote-author {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+/* Buttons and Labels */
+.btn-glade, .btn-submit {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.form-group label {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.footer-links a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+/* ============================================
+   PROJECTS HIGHLIGHT SECTION (Index page)
+   ============================================ */
+#projects-highlight {
+  padding: 18vh var(--space-md) 18vh !important;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(111, 191, 74, 0.04), transparent) !important;
+}
+
+.projects-highlight-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.projects-highlight-text {
+  max-width: 800px;
+  margin: 0 auto 8vh;
+}
+
+.projects-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.project-mini-card {
+  background: rgba(var(--surface-rgb), 0.3);
+  border: 1px solid rgba(var(--mint-mist-rgb), 0.12); /* highlighted */
+  border-radius: 20px;
+  padding: var(--space-md) var(--space-lg);
+  text-align: left;
+  transition: all 0.5s var(--ease-gentle);
+  position: relative;
+  box-shadow: 0 0 30px rgba(var(--life-spring-rgb), 0.02);
+}
+
+.project-mini-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--life-spring);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 25px rgba(var(--life-spring-rgb), 0.08);
+}
+
+.project-tag {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--life-spring);
+  margin-bottom: 2vh;
+  font-weight: 500;
+}
+
+.project-mini-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1vh;
+  color: var(--deep-earth-dark);
+}
+
+.project-mini-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.7;
+}
+
+.highlighted-btn {
+  border: 1px solid var(--life-spring) !important;
+  color: var(--life-spring-glow) !important;
+  box-shadow: 0 0 15px rgba(var(--life-spring-rgb), 0.1);
+}
+
+.highlighted-btn:hover {
+  background: rgba(var(--life-spring-rgb), 0.05);
+  box-shadow: 0 0 30px rgba(var(--life-spring-rgb), 0.2);
+}
+
+

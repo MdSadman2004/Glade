@@ -1,0 +1,324 @@
+/* ============================================
+   GLADE — Narrative Visual Layer
+   Story-driven motion, sunbreak accents,
+   living borders, page transitions
+   ============================================ */
+
+/* --- Sunbreak Token (Pure Yellow — the breakthrough) --- */
+:root {
+  --sunbreak: #F5C518;
+  --sunbreak-rgb: 245, 197, 24;
+  --sunbreak-glow: 0 0 40px rgba(245, 197, 24, 0.15), 0 0 80px rgba(245, 197, 24, 0.05);
+}
+
+/* ============================================
+   PAGE TRANSITION — Dark to clear
+   ============================================ */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--canvas-dark);
+  z-index: 99997;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page-transition-overlay.loaded {
+  opacity: 0;
+}
+
+/* ============================================
+   CURSOR SYSTEM — Double ring
+   ============================================ */
+.cursor-inner {
+  position: fixed;
+  width: 5px; height: 5px;
+  background: var(--life-spring);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease-organic), height 0.3s var(--ease-organic),
+              background 0.3s var(--ease-organic), opacity 0.3s;
+  box-shadow: 0 0 8px rgba(var(--life-spring-rgb), 0.4);
+}
+
+.cursor-dot {
+  transition: width 0.4s var(--ease-organic), height 0.4s var(--ease-organic),
+              background 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic),
+              border-radius 0.3s var(--ease-organic), opacity 0.3s;
+}
+
+.cursor-dot.cursor-expand {
+  width: 60px; height: 60px;
+  background: rgba(var(--mint-mist-rgb), 0.12);
+  border-color: rgba(var(--life-spring-rgb), 0.25);
+}
+
+.cursor-dot.cursor-text {
+  width: 4px; height: 28px;
+  border-radius: 2px;
+  background: var(--sunbreak);
+  border-color: transparent;
+  mix-blend-mode: normal;
+}
+
+/* Click burst particles */
+.click-burst {
+  position: fixed;
+  width: 4px; height: 4px;
+  background: var(--life-spring);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  animation: burstOut 0.6s var(--ease-gentle) forwards;
+  box-shadow: 0 0 6px rgba(var(--life-spring-rgb), 0.6);
+}
+@keyframes burstOut {
+  0% { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--bx), var(--by)) scale(0); }
+}
+
+/* ============================================
+   SUNBREAK GLOW — Golden orb behind hero logo
+   ============================================ */
+.sunbreak-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--sunbreak-rgb), 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  filter: blur(40px);
+  transition: opacity 2s var(--ease-organic);
+}
+.sunbreak-glow.active {
+  opacity: 1;
+  animation: sunbreakPulse 6s ease-in-out infinite;
+}
+@keyframes sunbreakPulse {
+  0%, 100% { transform: translate(-50%, -55%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -55%) scale(1.15); opacity: 1; }
+}
+
+/* ============================================
+   LOGO BREATHING — Post draw-in cycle
+   ============================================ */
+.hero-logo-svg.breathing {
+  animation: logoBreathe 5s ease-in-out infinite;
+}
+@keyframes logoBreathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px transparent); }
+  50% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(var(--life-spring-rgb), 0.15)); }
+}
+
+/* ============================================
+   CHARACTER SPLIT — Cascade reveal
+   ============================================ */
+.split-char {
+  display: inline-block;
+  transform: translateY(120%) rotate(5deg);
+  opacity: 0;
+  filter: blur(3px);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.split-text.visible .split-char {
+  transform: translateY(0) rotate(0);
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ============================================
+   SECTION DIVIDERS — Narrative activation
+   ============================================ */
+.section-divider {
+  transform: scaleX(0);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.section-divider.divider-active {
+  transform: scaleX(1);
+}
+
+/* Chapter 4 sunbreak divider — golden accent at the breakthrough */
+#clarity .section-divider {
+  background: linear-gradient(90deg, transparent, var(--sunbreak), transparent) !important;
+  opacity: 0.5 !important;
+}
+#clarity .section-divider::after {
+  background: var(--sunbreak) !important;
+  box-shadow: 0 0 12px var(--sunbreak), 0 0 24px rgba(var(--sunbreak-rgb), 0.3) !important;
+}
+
+/* ============================================
+   MARQUEE — Trust badges drift like leaves
+   ============================================ */
+.marquee-track {
+  display: flex;
+  gap: var(--space-md);
+  animation: marqueeScroll 30s linear infinite;
+  width: max-content;
+}
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.trust-row {
+  overflow: hidden !important;
+  display: flex !important;
+  padding: 6vh 0 !important;
+}
+
+/* ============================================
+   LIVING BORDERS — Cards that breathe
+   ============================================ */
+.anatomy-col,
+.eco-card,
+.project-mini-card,
+.eco-detail-card,
+.pillar-card,
+.project-detail-card {
+  animation: livingBorder 4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.anatomy-col:hover,
+.eco-card:hover,
+.project-mini-card:hover,
+.eco-detail-card:hover,
+.pillar-card:hover,
+.project-detail-card:hover {
+  animation-play-state: running;
+}
+@keyframes livingBorder {
+  0%, 100% { border-color: rgba(var(--mint-mist-rgb), 0.06); }
+  50% { border-color: rgba(var(--life-spring-rgb), 0.18); box-shadow: 0 0 30px rgba(var(--life-spring-rgb), 0.06); }
+}
+
+/* ============================================
+   TIMELINE — Golden traveling dot
+   ============================================ */
+.timeline-glow-dot {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--sunbreak);
+  box-shadow: 0 0 16px var(--sunbreak), 0 0 40px rgba(var(--sunbreak-rgb), 0.3);
+  z-index: 2;
+  transition: top 0.1s linear;
+  pointer-events: none;
+}
+
+/* Active step number glows sunbreak */
+.process-step.step-active .step-num {
+  border-color: rgba(var(--sunbreak-rgb), 0.5) !important;
+  color: var(--sunbreak) !important;
+  box-shadow: 0 0 30px rgba(var(--sunbreak-rgb), 0.2) !important;
+}
+
+/* ============================================
+   CHAPTER TRANSITIONS — Ambient background blobs
+   ============================================ */
+
+/* Chapter 3: Dense forest darkening */
+[data-chapter="dense-forest"] {
+  background: linear-gradient(180deg, var(--canvas-dark) 0%, #070F0D 50%, var(--canvas) 100%) !important;
+}
+
+/* Chapter 4: Light breaks through — golden wash */
+[data-chapter="light-breaks"] {
+  background: radial-gradient(ellipse 50% 40% at 50% 50%,
+    rgba(var(--sunbreak-rgb), 0.025),
+    rgba(var(--life-spring-rgb), 0.02),
+    transparent) !important;
+}
+
+/* Chapter 11: CTA — warm golden invitation */
+[data-chapter="step-into-light"] {
+  background: linear-gradient(135deg,
+    rgba(var(--sunbreak-rgb), 0.03),
+    rgba(var(--life-spring-rgb), 0.02),
+    transparent) !important;
+  border-top: 1px solid rgba(var(--sunbreak-rgb), 0.06) !important;
+  border-bottom: 1px solid rgba(var(--sunbreak-rgb), 0.06) !important;
+}
+
+/* Chapter 8: Quote — sunbreak quotation mark */
+[data-chapter="voice"] .quote-mark {
+  color: var(--sunbreak) !important;
+  opacity: 0.06 !important;
+}
+
+/* ============================================
+   FORM FOCUS — Sunbreak underlines
+   ============================================ */
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--sunbreak) !important;
+  box-shadow: 0 2px 16px rgba(var(--sunbreak-rgb), 0.12) !important;
+}
+.form-group input:focus ~ label,
+.form-group textarea:focus ~ label {
+  color: var(--sunbreak) !important;
+}
+
+/* ============================================
+   SCROLL PROMPT — Organic breathing
+   ============================================ */
+.scroll-prompt {
+  animation: scrollBreathe 3s ease-in-out infinite;
+}
+@keyframes scrollBreathe {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+  50% { transform: translateX(-50%) translateY(-4px); opacity: 1; }
+}
+
+/* ============================================
+   NAVBAR — Animated entrance
+   ============================================ */
+#navbar {
+  transform: translateY(-100%);
+  animation: navSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 4.8s forwards;
+}
+@keyframes navSlideIn {
+  to { transform: translateY(0); }
+}
+
+/* Active nav link indicator */
+.nav-links a.active {
+  opacity: 1 !important;
+  color: var(--life-spring) !important;
+}
+
+/* ============================================
+   STAT ITEMS — Ring pulse
+   ============================================ */
+.stat-item::after {
+  content: '';
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  width: 70px; height: 70px;
+  border: 1px solid rgba(var(--life-spring-rgb), 0.08);
+  border-radius: 50%;
+  animation: statRing 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes statRing {
+  0%, 100% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.4; }
+}
+
+/* ============================================
+   RESPONSIVE — Hide cursor on mobile
+   ============================================ */
+@media (max-width: 768px) {
+  .cursor-inner { display: none; }
+  #navbar { transform: none; animation: none; }
+}

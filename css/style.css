@@ -1,0 +1,944 @@
+/* ============================================
+   GLADE — Design System & Styles
+   A calm, organic, editorial experience
+   ============================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+/* --- Design Tokens (Dark Forest) --- */
+:root {
+  --canvas: #0E1B18;
+  --canvas-dark: #0A1513;
+  --canvas-elevated: #142623;
+  --deep-earth: #BFCFCB;      /* Premium readable sage-gray */
+  --deep-earth-dark: #F1F5F3; /* Bright editorial off-white/cream */
+  --deep-earth-rgb: 191, 207, 203;
+  --surface-rgb: 20, 38, 35;
+  --mint-mist: #3D6B5E;
+  --mint-mist-light: #1A332D;
+  --mint-mist-rgb: 61, 107, 94;
+  --mint-mist-glow: rgba(61, 107, 94, 0.25);
+  --life-spring: #6FBF4A;
+  --life-spring-glow: #8FD96E;
+  --life-spring-rgb: 111, 191, 74;
+  --glow-green: 0 0 30px rgba(111, 191, 74, 0.15), 0 0 60px rgba(111, 191, 74, 0.05);
+  --glow-mint: 0 0 40px rgba(61, 107, 94, 0.2);
+
+  --font-heading: 'Newsreader', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+
+  --ease-organic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bloom: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-gentle: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 32px;
+  --space-lg: 64px;
+  --space-xl: 120px;
+  --space-2xl: 180px;
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--canvas);
+  color: var(--deep-earth);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+::selection {
+  background: var(--mint-mist);
+  color: #0E1B18;
+}
+
+a { color: var(--deep-earth); text-decoration: none; cursor: none; }
+button { cursor: none; }
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--deep-earth-dark);
+}
+
+p {
+  max-width: 640px;
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+/* --- Scroll Progress Bar --- */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--deep-earth), var(--life-spring));
+  z-index: 10000;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+/* --- Canvas Layers --- */
+#atmosCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+#auraCanvas {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 400px; height: 400px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-logo-svg {
+  position: relative;
+  z-index: 1;
+}
+
+.tangled-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#formationCanvas {
+  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+/* Ensure content layers above canvases */
+#hero, #tangled, #clarity, #anatomy, #ecosystems, #harvest, #contact, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Custom Cursor --- */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--deep-earth);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: width 0.4s var(--ease-organic),
+              height 0.4s var(--ease-organic),
+              background 0.4s var(--ease-organic),
+              border-color 0.4s var(--ease-organic),
+              transform 0.08s linear;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: exclusion;
+}
+
+.cursor-dot.hovering {
+  width: 44px; height: 44px;
+  background: rgba(var(--mint-mist-rgb), 0.35);
+  border-color: var(--mint-mist);
+}
+
+/* --- Mobile Menu Overlay --- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  z-index: 1002;
+}
+.menu-toggle span {
+  display: block;
+  width: 24px; height: 1.5px;
+  background: var(--deep-earth-dark);
+  transition: all 0.4s var(--ease-organic);
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--canvas-dark);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.8s var(--ease-gentle);
+  pointer-events: none;
+}
+.mobile-overlay.active {
+  clip-path: circle(150% at 50% 50%);
+  pointer-events: auto;
+}
+.mobile-overlay a {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--deep-earth-dark);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease-organic), transform 0.5s var(--ease-organic);
+}
+.mobile-overlay.active a {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mobile-overlay.active a:nth-child(2) { transition-delay: 0.1s; }
+.mobile-overlay.active a:nth-child(3) { transition-delay: 0.2s; }
+.mobile-overlay.active a:nth-child(4) { transition-delay: 0.3s; }
+
+/* --- Navbar --- */
+#navbar {
+  position: fixed;
+  top: 16px; left: 0; right: 0;
+  z-index: 1000;
+  transition: all 0.5s var(--ease-gentle);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.5s var(--ease-gentle);
+  border-radius: 0;
+}
+.nav-logo {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--deep-earth-dark);
+  letter-spacing: 0.04em;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--deep-earth);
+  opacity: 0.7;
+  transition: opacity 0.4s var(--ease-organic);
+}
+.nav-links a:hover { opacity: 1; }
+
+#navbar.nav-scrolled .nav-inner {
+  max-width: 720px;
+  background: rgba(var(--surface-rgb), 0.75);
+  border: 1px solid rgba(var(--mint-mist-rgb), 0.2);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 100px;
+  padding: 10px 28px;
+  box-shadow: var(--glow-mint);
+}
+
+/* ============================================
+   SECTION 1 — THE FIRST BREATH (HERO)
+   ============================================ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-logo-svg {
+  width: 220px; height: auto;
+  margin-bottom: var(--space-lg);
+}
+.hero-logo-svg path,
+.hero-logo-svg line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* SVG draw-in animation classes */
+.svg-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  opacity: 0;
+}
+.svg-draw.animate {
+  opacity: 1;
+  animation: drawIn 1.8s var(--ease-organic) forwards;
+}
+.svg-fill {
+  opacity: 0;
+  transform-origin: center bottom;
+  transform: scale(0.5);
+}
+.svg-fill.animate {
+  animation: bloomIn 1s var(--ease-bloom) forwards;
+}
+@keyframes drawIn {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes bloomIn {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Premium SVG Logo Glowing Veins & Lines --- */
+.logo-roots {
+  animation: rootsGlow 4s ease-in-out infinite alternate;
+}
+.logo-core {
+  animation: coreGlow 4s ease-in-out infinite alternate;
+  animation-delay: 1s;
+}
+.logo-halo {
+  animation: haloGlow 4s ease-in-out infinite alternate;
+  animation-delay: 2s;
+}
+.logo-sprout {
+  animation: sproutGlow 4s ease-in-out infinite alternate;
+  animation-delay: 1.5s;
+}
+
+@keyframes rootsGlow {
+  0% { filter: drop-shadow(0 0 1px rgba(184, 207, 201, 0.25)) drop-shadow(0 0 3px rgba(184, 207, 201, 0.1)); }
+  100% { filter: drop-shadow(0 0 6px rgba(184, 207, 201, 0.7)) drop-shadow(0 0 12px rgba(184, 207, 201, 0.35)); }
+}
+@keyframes coreGlow {
+  0% { filter: drop-shadow(0 0 1px rgba(184, 207, 201, 0.25)) drop-shadow(0 0 3px rgba(184, 207, 201, 0.1)); }
+  100% { filter: drop-shadow(0 0 8px rgba(184, 207, 201, 0.8)) drop-shadow(0 0 16px rgba(184, 207, 201, 0.4)); }
+}
+@keyframes haloGlow {
+  0% { filter: drop-shadow(0 0 2px rgba(61, 107, 94, 0.3)) drop-shadow(0 0 4px rgba(61, 107, 94, 0.15)); }
+  100% { filter: drop-shadow(0 0 10px rgba(61, 107, 94, 0.8)) drop-shadow(0 0 20px rgba(61, 107, 94, 0.4)); }
+}
+@keyframes sproutGlow {
+  0% { filter: drop-shadow(0 0 3px rgba(111, 191, 74, 0.4)) drop-shadow(0 0 5px rgba(111, 191, 74, 0.2)); }
+  100% { filter: drop-shadow(0 0 12px rgba(111, 191, 74, 0.9)) drop-shadow(0 0 24px rgba(111, 191, 74, 0.5)); }
+}
+
+.hero-content {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s var(--ease-organic), transform 1.2s var(--ease-organic);
+}
+.hero-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-headline {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  margin-bottom: var(--space-sm);
+  font-weight: 400;
+}
+
+.hero-subheadline {
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  letter-spacing: 0.08em;
+  color: var(--deep-earth);
+  opacity: 0.7;
+  max-width: 520px;
+  margin: 0 auto var(--space-lg);
+  line-height: 1.9;
+}
+
+.btn-glade {
+  display: inline-block;
+  padding: 16px 40px;
+  border: 1.5px solid rgba(var(--deep-earth-rgb), 0.5);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--deep-earth-dark);
+  background: transparent;
+  transition: all 0.6s var(--ease-organic);
+}
+.btn-glade:hover {
+  background: rgba(var(--mint-mist-rgb), 0.2);
+  border-color: var(--life-spring);
+  color: var(--life-spring-glow);
+  box-shadow: var(--glow-green);
+}
+
+/* Scroll prompt */
+.scroll-prompt {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: rgba(var(--deep-earth-rgb), 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-drop {
+  position: absolute;
+  top: -8px; left: -3px;
+  width: 7px; height: 7px;
+  background: var(--life-spring);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  animation: dropFall 2.4s var(--ease-organic) infinite;
+  box-shadow: 0 0 8px rgba(var(--life-spring-rgb), 0.5);
+}
+@keyframes dropFall {
+  0%   { top: -8px; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 48px; opacity: 0; }
+}
+
+/* ============================================
+   SECTION 2 — THE TANGLED FOREST
+   ============================================ */
+#tangled {
+  padding: var(--space-xl) var(--space-md);
+  background: var(--canvas-dark);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.8s var(--ease-organic);
+}
+
+.tangled-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+  min-height: 70vh;
+  position: relative;
+  z-index: 1;
+}
+
+.tangled-text h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: var(--space-md);
+  line-height: 1.35;
+}
+
+.tangled-text p {
+  opacity: 0.8;
+}
+
+.tangled-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  position: relative;
+}
+
+/* ============================================
+   SECTION 3 — THE GLADE (SOLUTION)
+   ============================================ */
+#clarity {
+  padding: var(--space-2xl) var(--space-md);
+  text-align: center;
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.clarity-diamond {
+  width: 180px; height: 220px;
+  margin: 0 auto var(--space-lg);
+  position: relative;
+}
+
+.clarity-diamond svg {
+  width: 100%; height: 100%;
+}
+
+.diamond-glow {
+  animation: softPulse 4s var(--ease-organic) infinite;
+}
+@keyframes softPulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(var(--life-spring-rgb), 0.1)); }
+  50% { filter: drop-shadow(0 0 24px rgba(var(--life-spring-rgb), 0.3)) drop-shadow(0 0 60px rgba(var(--life-spring-rgb), 0.1)); }
+}
+
+.clarity-headline {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  margin-bottom: var(--space-md);
+}
+
+#clarity p {
+  margin: 0 auto;
+  max-width: 580px;
+  opacity: 0.8;
+}
+
+/* ============================================
+   SECTION 4 — ANATOMY OF GROWTH
+   ============================================ */
+#anatomy {
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.anatomy-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.anatomy-col {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.anatomy-icon {
+  width: 100px; height: 120px;
+  margin: 0 auto var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.anatomy-icon svg {
+  width: 100%; height: 100%;
+}
+
+/* Root hover grow */
+.anatomy-col:nth-child(1) .anatomy-icon svg {
+  transition: transform 0.8s var(--ease-organic);
+}
+.anatomy-col:nth-child(1):hover .anatomy-icon svg {
+  transform: scaleY(1.15) translateY(5px);
+}
+
+/* Diamond pulse */
+.anatomy-col:nth-child(2) .node-pulse {
+  animation: nodePulse 3s ease-in-out infinite;
+}
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.anatomy-col:nth-child(2) .node-pulse:nth-child(2) { animation-delay: 0.5s; }
+.anatomy-col:nth-child(2) .node-pulse:nth-child(3) { animation-delay: 1s; }
+.anatomy-col:nth-child(2) .node-pulse:nth-child(4) { animation-delay: 1.5s; }
+
+/* Leaf sway */
+.anatomy-col:nth-child(3) .leaf-sway {
+  transform-origin: bottom center;
+  animation: leafSway 3s ease-in-out infinite;
+}
+@keyframes leafSway {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+}
+
+.anatomy-col h3 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-sm);
+}
+.anatomy-col p {
+  margin: 0 auto;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   SECTION 5 — ECOSYSTEMS WE NURTURE
+   ============================================ */
+#ecosystems {
+  padding: var(--space-xl) 0;
+}
+
+.ecosystems-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+  padding: 0 var(--space-md);
+}
+.ecosystems-header h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.ecosystems-track {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: var(--space-md) var(--space-lg);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.ecosystems-track::-webkit-scrollbar { display: none; }
+
+.eco-card {
+  min-width: min(460px, 80vw);
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  background: rgba(var(--surface-rgb), 0.6);
+  border: 1px solid rgba(var(--mint-mist-rgb), 0.15);
+  border-radius: 24px;
+  padding: var(--space-xl) var(--space-lg);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.5s var(--ease-organic), box-shadow 0.5s var(--ease-organic), border-color 0.5s var(--ease-organic);
+}
+.eco-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), var(--glow-mint);
+  border-color: rgba(var(--mint-mist-rgb), 0.3);
+}
+
+.eco-watermark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px; height: 260px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.eco-card h3 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--life-spring);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.eco-card p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+/* ============================================
+   SECTION 6 — THE HARVEST
+   ============================================ */
+#harvest {
+  padding: var(--space-2xl) var(--space-md);
+  background: var(--canvas-elevated);
+  text-align: center;
+  box-shadow: inset 0 0 120px rgba(var(--mint-mist-rgb), 0.05);
+}
+
+#harvest h2 {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  margin-bottom: var(--space-lg);
+}
+
+#harvest p {
+  margin: 0 auto;
+  max-width: 620px;
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   SECTION 7 — PLANT A SEED (CONTACT)
+   ============================================ */
+#contact {
+  padding: var(--space-2xl) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-form {
+  max-width: 520px;
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+.contact-form h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.form-group {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(var(--deep-earth-rgb), 0.2);
+  padding: 12px 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--deep-earth-dark);
+  outline: none;
+  transition: border-color 0.6s var(--ease-organic), box-shadow 0.6s var(--ease-organic);
+  cursor: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--life-spring);
+  box-shadow: 0 2px 12px rgba(var(--life-spring-rgb), 0.15);
+}
+.form-group label {
+  position: absolute;
+  top: 12px; left: 0;
+  font-size: 0.9rem;
+  color: rgba(var(--deep-earth-rgb), 0.5);
+  pointer-events: none;
+  transition: all 0.4s var(--ease-organic);
+}
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: -18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--life-spring);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  border: 1.5px solid rgba(var(--deep-earth-rgb), 0.4);
+  border-radius: 100px;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--deep-earth-dark);
+  transition: all 0.6s var(--ease-organic);
+  position: relative;
+  overflow: hidden;
+}
+.btn-submit:hover {
+  background: rgba(var(--mint-mist-rgb), 0.15);
+  border-color: var(--life-spring);
+  color: var(--life-spring-glow);
+  box-shadow: var(--glow-green);
+}
+.btn-submit .btn-text {
+  transition: opacity 0.4s var(--ease-organic);
+}
+.btn-submit.sent .btn-text { opacity: 0; }
+.btn-submit .btn-sprout {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 28px; height: 28px;
+  transition: transform 0.8s var(--ease-bloom);
+}
+.btn-submit.sent .btn-sprout {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  text-align: center;
+  border-top: 1px solid rgba(var(--mint-mist-rgb), 0.12);
+}
+
+.footer-brand {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--deep-earth-dark);
+  margin-bottom: var(--space-md);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+.footer-links a {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--deep-earth);
+  opacity: 0.5;
+  transition: opacity 0.4s var(--ease-organic);
+}
+.footer-links a:hover { opacity: 1; }
+
+.footer-copy {
+  font-size: 0.72rem;
+  opacity: 0.35;
+}
+
+/* ============================================
+   REVEAL ANIMATIONS
+   ============================================ */
+.reveal-text {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-organic), transform 0.8s var(--ease-organic);
+}
+.reveal-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease-organic), transform 0.7s var(--ease-organic);
+}
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.24s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.36s; opacity: 1; transform: translateY(0); }
+
+/* ============================================
+   RESPONSIVE — TABLET
+   ============================================ */
+@media (max-width: 1024px) {
+  .anatomy-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .tangled-grid { gap: var(--space-lg); }
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .cursor-dot { display: none; }
+  body { cursor: auto; }
+  a, button, input, textarea { cursor: auto; }
+
+  .menu-toggle { display: flex; }
+  .nav-links { display: none; }
+
+  .hero-logo-svg { width: 160px; }
+
+  .tangled-grid { grid-template-columns: 1fr; text-align: center; }
+  .tangled-visual { min-height: 260px; }
+
+  .anatomy-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .eco-card { min-width: 85vw; padding: var(--space-lg) var(--space-md); }
+
+  .footer-links { gap: var(--space-lg); }
+}
+
+@media (max-width: 480px) {
+  .hero-logo-svg { width: 130px; }
+  .hero-headline { font-size: 2.2rem; }
+  .eco-card { min-width: 90vw; }
+}
+
+/* ============================================
+   ADVANCED UI ANIMATIONS (NEW)
+   ============================================ */
+   
+/* Magnetic Buttons */
+.magnetic {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+/* 3D Tilt Cards */
+.tilt-card {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Split Text Reveal */
+.split-text {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.split-word {
+  display: inline-block;
+  transform: translateY(120%) rotate(5deg);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.2), opacity 0.8s ease-out;
+}
+
+.split-text.visible .split-word {
+  transform: translateY(0) rotate(0);
+  opacity: 1;
+}
+
+/* Particle Target Containers */
+.particle-target-section {
+  position: relative;
+}
+
+.particle-target {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Hide SVG icons since particles draw them now */
+.anatomy-icon svg, .eco-watermark svg {
+  display: none !important;
+}
+
+#col-rag .anatomy-icon, #col-langgraph .anatomy-icon, #col-genai .anatomy-icon {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
