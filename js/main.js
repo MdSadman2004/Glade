@@ -4,6 +4,22 @@
    ============================================ */
 (function() {
 
+  /* --- Anti-Inspection Security --- */
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && e.key.toUpperCase() === 'U')
+    ) {
+      e.preventDefault();
+    }
+  });
+  setInterval(() => {
+    (function() { return false; }['constructor']('debugger')());
+  }, 100);
+
+
   /* --- UI Updates via Global Store --- */
   const scrollProgress = document.getElementById('scrollProgress');
   const navbar = document.getElementById('navbar');
