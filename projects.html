@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/elevated.css">
   <link rel="stylesheet" href="css/narrative.css">
+  <link rel="stylesheet" href="css/simulators.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <style>
     .projects-header {
@@ -173,12 +174,83 @@
     <p class="footer-copy">&copy; 2026 Glade. All rights reserved.</p>
   </footer>
 
+  <!-- AGENT SANDBOX MODAL -->
+  <div id="sandbox-modal" class="sandbox-modal-overlay">
+    <div class="sandbox-modal-container">
+      <div class="sandbox-modal-header">
+        <div class="header-left">
+          <div class="agent-pulse-dot"></div>
+          <h2 id="sandbox-agent-title">Agent Sandbox</h2>
+        </div>
+        <button class="sandbox-close-btn" onclick="closeSandboxModal()">&times;</button>
+      </div>
+      
+      <div class="sandbox-modal-body">
+        <!-- Input Panel -->
+        <div class="sandbox-panel panel-left">
+          <h3>Agent Controls</h3>
+          <p class="panel-desc">Configure the input document and parameters to execute the simulated LangGraph chain.</p>
+          
+          <div class="control-group">
+            <label for="sandbox-input-doc">Source Document</label>
+            <select id="sandbox-input-doc" onchange="updateSelectedDocument()">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+          
+          <div class="document-preview-box">
+            <div class="preview-header">Document Preview</div>
+            <pre id="sandbox-document-preview">Select a document to preview content...</pre>
+          </div>
+          
+          <button id="run-agent-btn" class="btn-submit-sandbox magnetic" onclick="startAgentSimulation()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Run Agent Pipeline</span>
+          </button>
+        </div>
+        
+        <!-- Execution Panel -->
+        <div class="sandbox-panel panel-right">
+          <div class="panel-tabs">
+            <button class="tab-btn active" id="tab-btn-terminal" onclick="switchSandboxTab('terminal')">Execution Logs</button>
+            <button class="tab-btn" id="tab-btn-visualization" onclick="switchSandboxTab('visualization')">Output Visualization</button>
+          </div>
+          
+          <div class="tab-content" id="tab-terminal">
+            <div class="terminal-window">
+              <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">bash - agent@glade-network</span>
+              </div>
+              <div class="terminal-body" id="terminal-log">
+                <div class="log-line system">Ready. Select a document and click "Run Agent Pipeline" above.</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-content hidden" id="tab-visualization">
+            <div class="visualization-window" id="visualization-output">
+              <div class="empty-state">
+                <p>Run the agent pipeline to view generated layout outputs...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/store.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/main.js"></script>
   <script src="js/canvas-engine.js"></script>
+  <script src="js/simulators.js"></script>
 
   <script>
     // Fetch page data from REST API
@@ -200,19 +272,47 @@
           const card = document.createElement('div');
           card.className = 'project-detail-card';
           card.style.transitionDelay = `${index * 0.15}s`;
-          card.innerHTML = `
-            <div class="project-detail-card-top">
-              <h4>${item.tag}</h4>
-              <h3>${item.title}</h3>
-              <p>${item.desc}</p>
-            </div>
-            <div class="project-action">
+          
+          let actionButtons = '';
+          if (item.githubUrl !== '#') {
+            actionButtons += `
               <a href="${item.githubUrl}" class="btn-github magnetic">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
                 </svg>
                 <span>Source Code</span>
               </a>
+            `;
+          } else {
+            actionButtons += `
+              <span class="btn-github disabled" style="opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Local Repo</span>
+              </span>
+            `;
+          }
+          
+          if (item.hasSandbox) {
+            actionButtons += `
+              <button onclick="launchAgentSandbox('${item.id}')" class="btn-github btn-launch-agent magnetic" style="border-color: var(--life-spring); color: var(--life-spring-glow); margin-left: 10px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Launch Agent</span>
+              </button>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="project-detail-card-top">
+              <h4>${item.tag}</h4>
+              <h3>${item.title}</h3>
+              <p>${item.desc}</p>
+            </div>
+            <div class="project-action" style="display: flex; align-items: center;">
+              ${actionButtons}
             </div>
           `;
           container.appendChild(card);
